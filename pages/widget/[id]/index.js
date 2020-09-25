@@ -12,13 +12,11 @@ export default function Widget(props) {
 
   const { imgSrc, shortcut } = props;
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      window.location.href = shortcut;
-    }, 1000);
-  }, []);
-
-  return <img src={imgSrc} style={{ width: "100%" }} />;
+  return (
+    <a href={shortcut}>
+      <img src={imgSrc} style={{ width: "100%" }} />
+    </a>
+  );
 }
 
 Widget.getInitialProps = async ({ query }) => {
