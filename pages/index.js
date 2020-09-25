@@ -49,7 +49,7 @@ export default function Home() {
           }}
         />
         <br />
-        <p>Copy shortcut URL:</p>
+        <p>Enter shortcut URL:</p>
         <input
           placeholder={`https://sonnylab.com`}
           defaultValue={shortcut}
@@ -58,8 +58,15 @@ export default function Home() {
           }}
         />
         <br />
-        {figmaUrl.length ? <button type="submit">CREATE WIDGET</button> : null}
+        {figmaUrl.length && shortcut.length ? (
+          <button type="submit">CREATE WIDGET</button>
+        ) : null}
       </form>
+
+      <p>
+        Crafted with ❤ by{" "}
+        <a href="https://twitter.com/sonnylazuardi">@sonnylazuardi</a>
+      </p>
     </div>
   );
 }
