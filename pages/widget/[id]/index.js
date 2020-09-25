@@ -32,7 +32,7 @@ Widget.getInitialProps = async ({ query }) => {
     {
       method: "get",
       headers: {
-        "X-FIGMA-TOKEN": `64524-4ad2eac7-e39b-460c-8af1-d3eca114e426`,
+        "X-FIGMA-TOKEN": `64570-b7a0321b-5299-47f4-a949-55a567e74c13`,
       },
     }
   );
