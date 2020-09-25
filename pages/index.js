@@ -1,49 +1,65 @@
-import Head from 'next/head'
-import { useState, useCallback } from 'react'
-
+import Head from "next/head";
+import { useState, useCallback } from "react";
+// https://www.figma.com/file/Qw50W199NUzlPz8lvLMeuT/Among-Us?node-id=1%3A2
 export default function Home() {
-  let [repos, setRepos] = useState([])
+  let [figmaUrl, setFigmaUrl] = useState("");
+  let [shortcut, setShortcut] = useState("");
 
   const onSubmit = useCallback((e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    let repoStrings = repos.map((repo) => {
-      return repo.replace(/^(http|https):\/\/github.com\//i, '').trim()
-    })
-
-    let url = repoStrings.map((str) => {
-      return `${encodeURIComponent(str.replace('/', '#'))}`
-    })
-
-    window.location.href = `/compare?repos=${url}`
-  })
+    const showResult = async () => {
+      const fileSplit = figmaUrl.split("/");
+      const nodeSplit = figmaUrl.split("=");
+      const fileKey = fileSplit[4];
+      const nodeId = nodeSplit[1].replace("%3A", ":");
+      const res = await fetch(`https://plugin-api.sonnylab.com/widget`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fileKey,
+          nodeId,
+          shortcut,
+        }),
+      });
+      const result = await res.json();
+      window.location.href = `/result?url=${result.randomId}`;
+    };
+    showResult();
+  });
 
   return (
     <div className="container">
       <Head>
-        <title>Sonnet 18 | Repo Comparison</title>
+        <title>Figma Widget</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Sonnet 18</h1>
-      <h2>Shall I compare thine repo to a summer's day?</h2>
-      <p>Add one repo URL per line:</p>
-      <form onSubmit={onSubmit}>
-        <textarea
-          placeholder={`https://github.com/username/test`}
-          defaultValue={repos}
-          onChange={(event) => {
-            let vals = event.target.value.split('\n').filter(function (el) {
-              return el.trim() !== ''
-            })
+      <h1>Figma to iOS Widget</h1>
+      <h2>Auto-magically showing your design in ios widget</h2>
 
-            setRepos(vals)
+      <form onSubmit={onSubmit}>
+        <p>Copy your file URL:</p>
+        <input
+          placeholder={`https://www.figma.com/file/Qw50W199NUzlPz8lvLMeuT/Among-Us?node-id=1%3A2`}
+          defaultValue={figmaUrl}
+          onChange={(event) => {
+            setFigmaUrl(event.target.value);
           }}
         />
         <br />
-        {repos.length >= 2 && repos.length <= 10 && (
-          <button type="submit">COMPARE</button>
-        )}
+        <p>Copy shortcut URL:</p>
+        <input
+          placeholder={`https://sonnylab.com`}
+          defaultValue={shortcut}
+          onChange={(event) => {
+            setShortcut(event.target.value);
+          }}
+        />
+        <br />
+        {figmaUrl.length ? <button type="submit">CREATE WIDGET</button> : null}
       </form>
     </div>
-  )
+  );
 }
