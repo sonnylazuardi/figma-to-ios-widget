@@ -40,8 +40,6 @@ Widget.getInitialProps = async ({ query }) => {
   );
   const result2 = await res2.json();
 
-  console.log(result2);
-
   const imgSrc = result2.images[nodeId];
   const shortcut = result1.widget.shortcut;
 
