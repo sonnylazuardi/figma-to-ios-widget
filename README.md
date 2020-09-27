@@ -1,5 +1,7 @@
 ## Figma to iOS Widget
 
+![img](ss.png)
+
 > Can I show my figma canvas directly in my homescreen?
 
 Everyone knows that apple just released widget on iOS 14. One exciting thing is that we can add custom widget on our home screen. There is a [Glimpse App](https://apps.apple.com/us/app/glimpse-2/id1524217845) to show snippet of a web page to your widget, but this small tool will help you to show your figma canvas rendered as a URL that you can put in the glimpse app.
